@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: GPL-2.0
+obj-m := pxw3pe.o
+pxw3pe-y := pxw3pe_main.o dvb_glue.o chrdev_glue.o board_glue.o

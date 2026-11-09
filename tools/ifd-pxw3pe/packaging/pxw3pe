@@ -1,0 +1,15 @@
+# pcscd reader configuration for the B-CAS card reader of a PX-W3PE.
+# Install as /etc/reader.conf.d/pxw3pe (see INSTALL.md).
+#
+# pcscd reads /etc/reader.conf.d only when it starts. A DEVICENAME that does
+# not exist at that moment makes it ignore this entry and every later one in
+# the same file, so load the kernel driver first and keep one board per file.
+#
+# For further boards, copy this file to /etc/reader.conf.d/pxw3pe-1, -2, ...
+# and change DEVICENAME to /dev/pxw3pe-card1, -card2, ...; the FRIENDLYNAME
+# may stay the same, pcscd numbers the readers "00 00", "01 00", ... in the
+# order in which it reads the files.
+
+FRIENDLYNAME "PX-W3PE Card Reader"
+DEVICENAME   /dev/pxw3pe-card0
+LIBPATH      /usr/local/lib/pcsc/drivers/serial/libifd_pxw3pe.so

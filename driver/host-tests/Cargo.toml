@@ -1,0 +1,39 @@
+[package]
+name = "pxw3pe-proto-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Host unit tests for the hardware-independent parts of the pxw3pe driver"
+license = "GPL-2.0"
+
+[lib]
+path = "lib.rs"
+
+# The lint set mirrors the kernel's rust_common_flags so that code passing here also builds
+# without warnings in the kernel.
+[lints.rust]
+missing_docs = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+unreachable_pub = "warn"
+unsafe_op_in_unsafe_fn = "deny"
+non_ascii_idents = "deny"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+as_ptr_cast_mut = "warn"
+as_underscore = "warn"
+cast_lossless = "warn"
+ignored_unit_patterns = "warn"
+mut_mut = "warn"
+needless_bitwise_bool = "warn"
+ptr_as_ptr = "warn"
+ptr_cast_constness = "warn"
+ref_as_ptr = "warn"
+undocumented_unsafe_blocks = "warn"
+unnecessary_safety_comment = "warn"
+unnecessary_safety_doc = "warn"
+collapsible_if = "allow"
+collapsible_match = "allow"
+needless_lifetimes = "allow"
+uninlined_format_args = "allow"
+unwrap_or_default = "allow"

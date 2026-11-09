@@ -1,0 +1,17 @@
+# Build output
+target/
+*.o
+*.ko
+*.mod
+*.mod.c
+.*.cmd
+Module.symvers
+modules.order
+
+# Local files, not tracked
+*.zip
+*.fw
+/dl/
+/fw/
+/src/
+/spec/

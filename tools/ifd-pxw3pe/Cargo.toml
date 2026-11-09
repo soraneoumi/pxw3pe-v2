@@ -1,0 +1,25 @@
+[package]
+name = "ifd-pxw3pe"
+version = "0.1.0"
+edition = "2021"
+# `&raw mut` (1.82) takes the ioctl argument pointers without an intermediate reference.
+rust-version = "1.82"
+description = "pcsc-lite IFD handler for the PX-W3PE built-in B-CAS card reader"
+publish = false
+
+[lib]
+name = "ifd_pxw3pe"
+# pcscd loads the handler with dlopen() and looks up the IFDH* symbols.
+crate-type = ["cdylib"]
+
+# Dependencies, and why each one is needed:
+#
+# libc - ioctl(2) and the errno values the kernel interface reports. std exposes
+#        neither, and hand-written declarations of either would be per-target.
+[dependencies]
+libc = "0.2.180"
+
+[profile.release]
+# Every exported function catches panics so that none unwinds into pcscd, which
+# needs unwinding; `abort` would turn any panic into a pcscd crash.
+panic = "unwind"

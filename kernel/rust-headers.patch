@@ -1,0 +1,33 @@
+Package the Rust build artifacts in the kernel headers package
+
+Out-of-tree Rust modules are compiled against the kernel's crates (rust/*.rmeta) and its
+procedural macro libraries (rust/*.so), and Kbuild points Clippy at the .clippy.toml of the
+tree it builds against. `make bindeb-pkg` leaves all of them out of the headers package, so a
+Rust module cannot be built against /lib/modules/<release>/build, which is what DKMS uses.
+
+--- a/scripts/package/install-extmod-build
++++ b/scripts/package/install-extmod-build
+@@ -36,6 +36,11 @@
+ 		echo tools/bpf/resolve_btfids/resolve_btfids
+ 	fi
+ 
++	# Rust modules are compiled against the kernel's crates, not against sources.
++	if is_enabled CONFIG_RUST; then
++		find rust -maxdepth 1 \( -name '*.rmeta' -o -name '*.so' \)
++	fi
++
+ 	echo Module.symvers
+ 	echo "arch/${SRCARCH}/include/generated"
+ 	echo include/config/auto.conf
+@@ -48,6 +53,11 @@
+ 	fi
+ } | tar -c -f - -T - | tar -xf - -C "${destdir}"
+ 
++# Kbuild points Clippy at the kernel's settings (minimum Rust version, extra lints).
++if is_enabled CONFIG_RUST; then
++	cp "${srctree}/.clippy.toml" "${destdir}/"
++fi
++
+ # When ${CC} and ${HOSTCC} differ, rebuild host programs using ${CC}.
+ #
+ # This caters to host programs that participate in Kbuild. objtool and
